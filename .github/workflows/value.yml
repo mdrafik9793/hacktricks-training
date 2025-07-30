@@ -1,0 +1,26 @@
+name: Get Secret Value from Secrets Manager
+
+on:
+  workflow_dispatch:
+
+jobs:
+  get-secret:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::601897965856:role/sts-lab-2-target
+          aws-region: us-east-1
+
+      - name: Retrieve and Print Secret
+        run: |
+          aws secretsmanager get-secret-value \
+            --secret-id flag_sts_lab_2 \
+            --region us-east-1 \
+            --query 'SecretString' \
+            --output text
