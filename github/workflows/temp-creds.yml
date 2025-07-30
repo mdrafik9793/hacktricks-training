@@ -1,10 +1,10 @@
-name: Get AWS Temp Credentials
+name: List AWS Secrets
 
 on:
   workflow_dispatch:
 
 jobs:
-  get-temp-creds:
+  list-secrets:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -17,8 +17,7 @@ jobs:
           role-to-assume: arn:aws:iam::601897965856:role/sts-lab-2-target
           aws-region: us-east-1
 
-      - name: Print Temporary Credentials
+      - name: List AWS Secrets
         run: |
-          echo "Access Key: $AWS_ACCESS_KEY_ID"
-          echo "Secret Key: $AWS_SECRET_ACCESS_KEY"
-          echo "Session Token: $AWS_SESSION_TOKEN"
+          echo "Fetching secrets..."
+          aws secretsmanager list-secrets --region us-east-1
