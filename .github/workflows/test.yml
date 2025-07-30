@@ -1,0 +1,23 @@
+name: List AWS Secrets
+
+on:
+  workflow_dispatch:
+
+jobs:
+  list-secrets:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Configure AWS credentials using OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::601897965856:role/sts-lab-2-target
+          aws-region: us-east-1
+
+      - name: List AWS Secrets
+        run: |
+          echo "Fetching secrets..."
+          aws secretsmanager list-secrets --region us-east-1
